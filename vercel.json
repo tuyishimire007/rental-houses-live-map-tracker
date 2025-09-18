@@ -3,11 +3,6 @@
   "buildCommand": "npm run build",
   "devCommand": "npm run dev",
   "installCommand": "npm install",
-  "functions": {
-    "src/app/api/**/*.ts": {
-      "runtime": "nodejs18.x"
-    }
-  },
   "env": {
     "NEXT_PUBLIC_SUPABASE_URL": "https://euxdxnwgevjyjyfonyso.supabase.co",
     "NEXT_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV1eGR4bndnZXZqeWp5Zm9ueXNvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgxMzE0NzUsImV4cCI6MjA3MzcwNzQ3NX0.XqzbalLE448U7IV1QKXpwCqgqToS8s16Cv929ap3WkY",
