@@ -1,36 +1,174 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Rental Tracker
+
+A real-time rental property tracking application built with Next.js 14, Supabase, and Google Maps API.
+
+## Features
+
+- **Interactive Map Interface**: Full-screen Google Maps with real-time property pins
+- **Property Management**: Owners can add, edit, and manage their rental properties
+- **Real-time Updates**: Live updates when property status changes
+- **Location Tracking**: Optional visitor arrival tracking with confirmation prompts
+- **Role-based Access**: Different interfaces for owners, renters, and admins
+- **Responsive Design**: Works on desktop and mobile devices
+
+## Tech Stack
+
+- **Frontend**: Next.js 14 (App Router), TypeScript, Tailwind CSS
+- **Backend**: Supabase (PostgreSQL + real-time subscriptions)
+- **Maps**: Google Maps JavaScript API
+- **Authentication**: Supabase Auth
+- **Hosting**: Vercel (frontend) + Supabase (backend)
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 18+ 
+- npm or yarn
+- Supabase account
+- Google Maps API key
+
+### 1. Clone and Install
+
+```bash
+git clone <your-repo-url>
+cd rental-tracker
+npm install
+```
+
+### 2. Environment Setup
+
+Copy the example environment file:
+
+```bash
+cp env.example .env.local
+```
+
+Fill in your environment variables:
+
+```env
+# Supabase Configuration
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
+
+# Google Maps API
+NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=your_google_maps_api_key
+
+# App Configuration
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+```
+
+### 3. Supabase Setup
+
+1. Create a new Supabase project at [supabase.com](https://supabase.com)
+2. Go to the SQL Editor and run the migration file:
+   ```sql
+   -- Copy and paste the contents of supabase/migrations/001_initial_schema.sql
+   ```
+3. Enable Row Level Security (RLS) policies are already included in the migration
+4. Get your project URL and anon key from Settings > API
+
+### 4. Google Maps Setup
+
+1. Go to [Google Cloud Console](https://console.cloud.google.com)
+2. Enable the Maps JavaScript API
+3. Create an API key and restrict it to your domain
+4. Add the key to your `.env.local` file
+
+### 5. Run the Development Server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Database Schema
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Tables
 
-## Learn More
+1. **profiles**
+   - User profiles with role-based access (owner, renter, admin)
+   - Links to Supabase auth users
 
-To learn more about Next.js, take a look at the following resources:
+2. **properties**
+   - Rental property listings
+   - Includes location, price, images, and status
+   - Real-time status updates (available, occupied, pending_review)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3. **visit_confirmations**
+   - Tracks when renters visit properties
+   - Used for arrival confirmation system
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Key Features Implementation
 
-## Deploy on Vercel
+### Map Interface
+- Full-screen Google Maps on the home page
+- Real-time property markers for available listings
+- Click markers to view property details
+- Location-based property filtering
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Property Management
+- Owner dashboard for CRUD operations
+- Image upload and management
+- Status management (available/occupied)
+- Location selection via map clicks
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Real-time Updates
+- Supabase real-time subscriptions
+- Instant map updates when properties change status
+- Live notifications for property owners
+
+### Location Tracking (Optional)
+- Browser geolocation API integration
+- Proximity-based arrival detection
+- Confirmation prompts for property visits
+- Privacy-focused with clear consent UI
+
+## Deployment
+
+### Vercel Deployment
+
+1. Push your code to GitHub
+2. Connect your repository to Vercel
+3. Add environment variables in Vercel dashboard
+4. Deploy!
+
+### Environment Variables for Production
+
+Make sure to set these in your Vercel environment:
+
+- `NEXT_PUBLIC_SUPABASE_URL`
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+- `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY`
+- `NEXT_PUBLIC_APP_URL` (your production domain)
+
+## Project Structure
+
+```
+src/
+├── app/                    # Next.js App Router pages
+│   ├── dashboard/         # Owner dashboard
+│   ├── login/            # Authentication pages
+│   └── signup/
+├── components/            # React components
+│   ├── auth/             # Authentication components
+│   ├── map/              # Map-related components
+│   └── ui/               # Reusable UI components
+├── lib/                  # Utility functions
+│   └── supabase/         # Supabase client configuration
+└── types/                # TypeScript type definitions
+```
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests if applicable
+5. Submit a pull request
+
+## License
+
+MIT License - see LICENSE file for details
