@@ -1,6 +1,5 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
 import { Property } from '@/types/property'
 
 interface PropertyMarkerProps {

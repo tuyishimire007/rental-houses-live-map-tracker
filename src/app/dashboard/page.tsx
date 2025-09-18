@@ -14,7 +14,7 @@ import { useRouter } from 'next/navigation'
 export default function DashboardPage() {
   const [properties, setProperties] = useState<Property[]>([])
   const [loading, setLoading] = useState(true)
-  const [user, setUser] = useState<any>(null)
+  const [user, setUser] = useState<{ id: string; email?: string } | null>(null)
   const [showAddForm, setShowAddForm] = useState(false)
   const [editingProperty, setEditingProperty] = useState<Property | null>(null)
   const router = useRouter()
@@ -77,6 +77,10 @@ export default function DashboardPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     try {
+      if (!user) {
+        throw new Error('User not authenticated')
+      }
+
       const propertyData = {
         ...formData,
         price: parseFloat(formData.price),

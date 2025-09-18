@@ -68,8 +68,9 @@ export default function AuthForm({ mode }: AuthFormProps) {
 
         if (error) throw error
       }
-    } catch (error: any) {
-      setMessage(error.message)
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'An error occurred'
+      setMessage(errorMessage)
     } finally {
       setLoading(false)
     }

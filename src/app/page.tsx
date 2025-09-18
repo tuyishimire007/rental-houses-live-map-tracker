@@ -10,7 +10,7 @@ import { useRouter } from 'next/navigation'
 export default function HomePage() {
   const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null)
   const [locationPermission, setLocationPermission] = useState<'granted' | 'denied' | 'prompt'>('prompt')
-  const [user, setUser] = useState<any>(null)
+  const [user, setUser] = useState<{ id: string; email?: string } | null>(null)
   const [loading, setLoading] = useState(true)
   const router = useRouter()
   const supabase = createClient()
@@ -78,19 +78,7 @@ export default function HomePage() {
     )
   }
 
-  if (!user) {
-    return (
-      <div className="w-full h-screen flex items-center justify-center bg-gray-100">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">Rental Tracker</h1>
-          <p className="text-gray-600 mb-6">Please sign in to view available rental properties</p>
-          <Button onClick={() => router.push('/login')}>
-            Sign In
-          </Button>
-        </div>
-      </div>
-    )
-  }
+  // Show the map for all users, with optional authentication features
 
   return (
     <div className="relative w-full h-screen">
@@ -113,19 +101,47 @@ export default function HomePage() {
           </div>
           
           <div className="flex items-center space-x-4">
-            <div className="flex items-center space-x-2 text-sm text-gray-600">
-              <User className="h-4 w-4" />
-              <span>{user.email}</span>
-            </div>
-            <Button
-              onClick={handleSignOut}
-              variant="ghost"
-              size="sm"
-              className="flex items-center space-x-2"
-            >
-              <LogOut className="h-4 w-4" />
-              <span>Sign Out</span>
-            </Button>
+            {user ? (
+              <>
+                <div className="flex items-center space-x-2 text-sm text-gray-600">
+                  <User className="h-4 w-4" />
+                  <span>{user.email}</span>
+                </div>
+                <Button
+                  onClick={handleSignOut}
+                  variant="ghost"
+                  size="sm"
+                  className="flex items-center space-x-2"
+                >
+                  <LogOut className="h-4 w-4" />
+                  <span>Sign Out</span>
+                </Button>
+                <Button
+                  onClick={() => router.push('/dashboard')}
+                  variant="outline"
+                  size="sm"
+                  className="flex items-center space-x-2"
+                >
+                  <span>Dashboard</span>
+                </Button>
+              </>
+            ) : (
+              <div className="flex items-center space-x-2">
+                <Button
+                  onClick={() => router.push('/login')}
+                  variant="outline"
+                  size="sm"
+                >
+                  Sign In
+                </Button>
+                <Button
+                  onClick={() => router.push('/signup')}
+                  size="sm"
+                >
+                  Sign Up
+                </Button>
+              </div>
+            )}
           </div>
         </div>
       </div>

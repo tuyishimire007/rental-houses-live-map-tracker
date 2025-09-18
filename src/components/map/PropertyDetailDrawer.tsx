@@ -3,7 +3,6 @@
 import { useState } from 'react'
 import { Property } from '@/types/property'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { X, MapPin, Phone, Mail, ExternalLink, ChevronLeft, ChevronRight } from 'lucide-react'
 
 interface PropertyDetailDrawerProps {
